@@ -42,9 +42,13 @@
         >
             <span class="custom-tree-node" slot-scope="{ node, data }" v-if="showOrderReversal">
                 <span>{{ node.label }}</span>
-                <span>
-                    <el-button type="text" size="mini" @click="menuMoveF(node, data, 'up')">↑</el-button>
-                    <el-button type="text" size="mini" @click="menuMoveF(node, data, 'down')">↓</el-button>
+                <span class="s-rightHandleBtn">
+                    <span @click="menuMoveF(node, data, 'up')">
+                        <slot name="up">↑</slot>
+                    </span>
+                    <span @click="menuMoveF(node, data, 'down')">
+                        <slot name="down">↓</slot>
+                    </span>
                 </span>
             </span>
         </el-tree>
@@ -219,10 +223,7 @@ export default {
                         window.sessionStorage.getItem("menuNode")
                     );
                     // 参数：1. 要增加的节点的 data 2. 要增加的节点的前一个节点的 data、key 或者 node
-                    this.insertAfter(
-                        nodeData.data,
-                        nodeData.nextSibling.data
-                    );
+                    this.insertAfter(nodeData.data, nodeData.nextSibling.data);
                     window.sessionStorage.removeItem("menuNode");
                 } else {
                     this.$message.warning("该菜单已经是当前层最下级");

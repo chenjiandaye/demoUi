@@ -7,7 +7,14 @@
             :default-expand-all="true"
             :showOrderReversal="true"
             :expand-on-click-node="false"
-        ></s-tree>
+        >
+                <template v-slot:up>
+                    <el-button type="text" size="mini">上</el-button>
+                </template>
+                <template v-slot:down>
+                    <el-button type="text" size="mini">下</el-button>
+                </template>
+        </s-tree>
     </div>
 </template>
 
