@@ -2,12 +2,12 @@
     <section class="section-body" style="height:400px;">
         <line-chart
             :id="'timeLine'"
-            :loading="timeLoading"
+            :loading="loading"
             :optRenderer="'canvas'"
             width="1200px"
             :linearGradient="true"
             :lineColorArr="lineColorArr"
-            :option="timeLineOption"
+            :option="lineOption"
         ></line-chart>
     </section>
 </template>
@@ -15,8 +15,8 @@
 export default {
     data() {
         return {
-            timeLineOption: {},
-            timeLoading: false,
+            lineOption: {},
+            loading: false,
             lineColorArr: [
                 {
                     offset: 0,
@@ -38,7 +38,7 @@ export default {
     },
     methods: {
         setLineOption() {
-            this.timeLineOption = {
+            this.lineOption = {
                 title: { //标题配置
                     text: "堆叠区域图", 
                     textStyle: {        //文字样式，在此只列举两种，其他可以echart官网配置项查看

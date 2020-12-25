@@ -1,6 +1,6 @@
 <template>
-    <div class="module-container" :style="{height:height,width:width}">
-        <div :id="lineId" class="module-body bg" :style="{height:height,width:width}" :ref="lineId"></div>
+    <div class="module-container" :style="chartStyle">
+        <div :id="id" :style="chartStyle" :ref="id"></div>
     </div>
 </template>
 <script>
@@ -9,7 +9,7 @@ import echarts from "echarts";
 export default {
     name: "lineChart",
     props: {
-        lineId: {
+        id: {
             // 折线图图表id
             type: String,
             default() {
@@ -41,7 +41,7 @@ export default {
             // 折线图宽
             type: String,
             default() {
-                return "300px";
+                return "100%";
             }
         },
         option: {
@@ -83,6 +83,12 @@ export default {
             return {
                 renderer: this.optRenderer
             };
+        },
+        chartStyle() {
+            return {
+                height: this.height,
+                width: this.width
+            };
         }
     },
     watch: {
@@ -104,50 +110,8 @@ export default {
     },
     mounted() {
         if (this.line === null) {
-            this.line = echarts.init(this.$refs[this.lineId], null, this.opts);
+            this.line = echarts.init(this.$refs[this.id], null, this.opts);
         }
-        /**
-         * 设置折线图点击事件
-         */
-        // if (this.enabledClick) {
-        //     this.line.getZr().on("click", params => {
-        //         let pointInPixel = [params.offsetX, params.offsetY];
-        //         if (this.line.containPixel("grid", pointInPixel)) {
-        //             let pointInGrid = this.line.convertFromPixel(
-        //                 { seriesIndex: 0 },
-        //                 pointInPixel
-        //             );
-        //             let xIndex = pointInGrid[[0]];
-        //             let op = this.line.getOption();
-        //             let xValue = op.xAxis[0].data[xIndex];
-        //             this.$emit(
-        //                 "onDetail",
-        //                 xValue,
-        //                 op.series[1].data[xIndex].groupTime
-        //             );
-        //         }
-        //     });
-        // }
-        // /**
-        //  * 设置图例最少一个选中
-        //  */
-        // this.line.on("legendselectchanged", params => {
-        //     let legendObj = params.selected;
-        //     let selectedNum = 0;
-        //     for (const key in legendObj) {
-        //         if (Object.prototype.hasOwnProperty.call(legendObj, key)) {
-        //             const element = legendObj[key];
-        //             if (element) {
-        //                 selectedNum += 1;
-        //             }
-        //         }
-        //     }
-        //     if (selectedNum === 0) {
-        //         legendObj[params.name] = true;
-        //         this.option.legend.selected = legendObj;
-        //         this.line.setOption(this.option);
-        //     }
-        // });
     },
     beforeDestroy() {
         if (
@@ -168,11 +132,7 @@ export default {
                 this.line !== "" &&
                 !(typeof this.line === "undefined")
             ) {
-                this.line = echarts.init(
-                    this.$refs[this.lineId],
-                    null,
-                    this.opts
-                );
+                this.line = echarts.init(this.$refs[this.id], null, this.opts);
             }
 
             if (this.linearGradient && this.lineColorArr.length >= 2) {
@@ -180,15 +140,22 @@ export default {
                     item["itemStyle"] = {
                         normal: {
                             areaStyle: {
-                                type: 'default',
+                                type: "default",
                                 //渐变色实现
-                                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, this.lineColorArr),
-                            },
+                                color: new echarts.graphic.LinearGradient(
+                                    0,
+                                    0,
+                                    0,
+                                    1,
+                                    this.lineColorArr
+                                )
+                            }
                         }
-                    }
-                    })
+                    };
+                });
             }
             this.line.setOption(this.option);
+            window.addEventListener("resize", this.line.resize); // 图表自适应
         }
     }
 };
