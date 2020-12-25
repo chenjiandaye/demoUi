@@ -1,11 +1,13 @@
 import tree from './Tree/index';
 import LineChart from './LineChart/index';
 import BarChart from './BarChart/index';
+import PieChart from './PieChart/index';
 
 const components = [
   tree,
   LineChart,
-  BarChart
+  BarChart,
+  PieChart
 ];
 
 let sime = {
@@ -22,5 +24,6 @@ export default sime;
 export {
   tree,
   LineChart,
-  BarChart
+  BarChart,
+  PieChart
 };

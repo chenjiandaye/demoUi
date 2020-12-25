@@ -36,7 +36,15 @@ export default {
             type: Array
         },
         option: {
-            type: Object
+            type: Object,
+            required: true // 数据
+        },
+        optRenderer: {
+            // 渲染模式：canvas，svg
+            type: String,
+            default() {
+                return "canvas";
+            }
         }
     },
     computed: {
@@ -46,18 +54,23 @@ export default {
                 width: this.width
             };
         },
+        opts() {
+            return {
+                renderer: this.optRenderer
+            };
+        },
         barOption() {
             return this.option.series;
         }
     },
     mounted() {
         if (this.bar === null) {
-            this.bar = echarts.init(this.$refs[this.id]);
+            this.bar = echarts.init(this.$refs[this.id], null, this.opts);
         }
     },
     methods: {
-        drawLine() {
-            this.bar = echarts.init(this.$refs[this.id]);
+        drawBar() {
+            this.bar = echarts.init(this.$refs[this.id], null, this.opts);
             this.bar.setOption(this.option);
             window.addEventListener("resize", this.bar.resize); // 图表自适应
         }
@@ -75,7 +88,7 @@ export default {
                 this.option.xAxis.data = [];
                 this.bar.setOption(this.option);
             } else {
-                this.drawLine();
+                this.drawBar();
             }
         }
     }
