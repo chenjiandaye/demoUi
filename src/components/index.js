@@ -1,7 +1,9 @@
 import tree from './Tree/index';
+import LineChart from './LineChart/index';
 
 const components = [
-  tree
+  tree,
+  LineChart
 ];
 
 let sime = {
@@ -16,5 +18,6 @@ export default sime;
 
 
 export {
-  tree
+  tree,
+  LineChart
 };

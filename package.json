@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "circular-json": "^0.5.9",
+    "echarts": "^4.9.0",
     "element-ui": "^2.14.1",
     "vue": "^2.6.11"
   },
